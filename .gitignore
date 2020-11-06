@@ -35,5 +35,6 @@
 .vs
 *.vcxproj*
 *.sln
+Debug
 
 #MS Office garbage 
