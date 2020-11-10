@@ -1,6 +1,6 @@
 #include "Utilities.h"
 
-//namespace sdds {
+
 Utilities::~Utilities() {}
 Utilities::Utilities() {}
 
@@ -11,11 +11,14 @@ std::string Utilities::extractToken(const std::string& str, size_t& next_pos, bo
 	more = false;
 	std::string temp{};
 	if (pos >= 0) { //extraction token
-		temp = str.substr(next_pos, pos-next_pos);
+		temp = str.substr(next_pos, pos - next_pos);
 		size_t len = util::trim(temp).length();
-		next_pos = pos+1;
-		if (len > 0) {
+		next_pos = pos + 1;
+		if (pos != std::string::npos)
 			more = true;
+		else
+			more = false;
+		if (len > 0) {
 			if (len > this->m_widthField) {
 				this->m_widthField = len;
 			}
@@ -28,5 +31,3 @@ std::string Utilities::extractToken(const std::string& str, size_t& next_pos, bo
 }
 //initialize m_delimiter
 char Utilities::m_delimiter = ',';
-
-//}

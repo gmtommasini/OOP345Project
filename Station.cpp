@@ -1,7 +1,6 @@
 #include "Station.h"
 
 
-//namespace sdds {
 size_t Station::m_widthField = 0;
 size_t Station::id_generator = 1;
 
@@ -11,7 +10,6 @@ Station::Station() {}
 Station::Station(const std::string input) {
 	size_t pos = 0;
 	bool more = true;
-	//		std::string line = input;
 	Utilities ut;
 	std::string token;
 	try {
@@ -31,8 +29,6 @@ Station::Station(const std::string input) {
 	catch (const std::string error) {
 		std::cout << error;
 	}
-	
-
 }
 const std::string& Station::getItemName() const {
 	return itemName;
@@ -58,4 +54,3 @@ void Station::display(std::ostream& os, bool full) const {
 	}
 	os << std::endl;
 }
-//}
