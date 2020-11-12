@@ -1,5 +1,12 @@
-#include "Station.h"
+// Name: Guilherme Matsumoto Tommasini
+// Seneca Student ID: 167561182 
+// Seneca email: gmatsumoto-tommasini@myseneca.ca
+// Date of completion: 2020/11/11
+//
+// I confirm that I am the only author of this file
+//   and the content was created entirely by me.
 
+#include "Station.h"
 
 size_t Station::m_widthField = 0;
 size_t Station::id_generator = 1;
