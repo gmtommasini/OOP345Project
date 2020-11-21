@@ -56,7 +56,7 @@ CustomerOrder::CustomerOrder(CustomerOrder&& src) noexcept {
 }
 CustomerOrder& CustomerOrder::operator=(CustomerOrder&& src) noexcept {
 	if (this != &src) {
-		try { 
+		try {
 			if (this->m_lstItem) {
 				//deleting existing data
 				for (size_t i = 0; i < this->m_cntItem; i++) {
@@ -71,8 +71,8 @@ CustomerOrder& CustomerOrder::operator=(CustomerOrder&& src) noexcept {
 			this->m_lstItem = src.m_lstItem;
 
 			//emptying source
-			src.m_name = "";
-			src.m_product = "";
+			src.m_name.clear();
+			src.m_product.clear();
 			src.m_cntItem = 0;
 			src.m_lstItem = nullptr;
 		}
@@ -118,10 +118,12 @@ void CustomerOrder::fillItem(Station& station, std::ostream& os) {
 	}
 }
 void CustomerOrder::display(std::ostream& os) const {
-	os << m_name << " - " << m_product << std::endl;
-	for (size_t i = 0; i < m_cntItem; i++) {
-		os << "[" << std::setw(6) << std::setfill('0') << std::right << m_lstItem[i]->m_serialNumber << "] "
-			<< std::setw(m_widthField) << std::setfill(' ') << std::left << m_lstItem[i]->m_itemName
-			<< " - " << (m_lstItem[i]->m_isFilled ? "FILLED" : "MISSING") << std::endl;
+	if (m_lstItem) {//do not display empties
+		os << m_name << " - " << m_product << std::endl;
+		for (size_t i = 0; i < m_cntItem; i++) {
+			os << "[" << std::setw(6) << std::setfill('0') << std::right << m_lstItem[i]->m_serialNumber << "] "
+				<< std::setw(m_widthField) << std::setfill(' ') << std::left << m_lstItem[i]->m_itemName
+				<< " - " << (m_lstItem[i]->m_isFilled ? "FILLED" : "MISSING") << std::endl;
+		}
 	}
 }
