@@ -1,7 +1,7 @@
 // Name: Guilherme Matsumoto Tommasini
 // Seneca Student ID: 167561182 
 // Seneca email: gmatsumoto-tommasini@myseneca.ca
-// Date of completion: 2020/11/21
+// Date of completion: 2020/11/24
 //
 // I confirm that I am the only author of this file
 //   and the content was created entirely by me.
@@ -22,7 +22,7 @@ void Workstation::runProcess(std::ostream& os) {
 bool Workstation::moveOrder() {
 	bool moved = false;
 	if (!m_orders.empty()) {
-		if (m_pNextStation != nullptr && 
+		if (m_pNextStation != nullptr &&
 			m_orders.front().isItemFilled(this->getItemName())) {
 			*(Workstation*)m_pNextStation += std::move(m_orders.front());
 			m_orders.pop_front();
@@ -39,7 +39,7 @@ void Workstation::setNextStation(Station& station) {
 }
 
 const Workstation* Workstation::getNextStation() const {
-	return (Workstation*)m_pNextStation;
+	return static_cast<Workstation*>(m_pNextStation);
 }
 
 bool Workstation::getIfCompleted(CustomerOrder& order) {
@@ -52,7 +52,7 @@ bool Workstation::getIfCompleted(CustomerOrder& order) {
 	return complete;
 }
 
-void Workstation::display(std::ostream& os) const{
+void Workstation::display(std::ostream& os) const {
 	os << getItemName() << " --> " <<
 		(m_pNextStation != nullptr ? m_pNextStation->getItemName() : "END OF LINE")
 		<< std::endl;

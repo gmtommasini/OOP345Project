@@ -1,7 +1,7 @@
 // Name: Guilherme Matsumoto Tommasini
 // Seneca Student ID: 167561182 
 // Seneca email: gmatsumoto-tommasini@myseneca.ca
-// Date of completion: 2020/11/21
+// Date of completion: 2020/11/24
 //
 // I confirm that I am the only author of this file
 //   and the content was created entirely by me.
@@ -23,54 +23,36 @@ LineManager::LineManager(const string& filename, vector<Workstation*>& workstati
 	if (!file) {
 		throw std::string("Unable to open [") + filename + "] file.";
 	}
-	bool firstTime = true;
-	while (file) {
+	bool firstTime = true; //for first station in the line
+	while (file) {		//if getline fails, it breaks the while loop
 		std::getline(file, line);
 		try {
 			current = ut.extractToken(line, pos, more);
 			if (more) {
 				next = ut.extractToken(line, pos, more);
-			for (auto station1 : workstations) {
-				if (station1->getItemName() == current) {
-					if (current == "WiFi")
-						cout<<"debug";
-					for (auto station2 : workstations) {
-						if (station2->getItemName() == next) {
-							station1->setNextStation(*station2);
-							if (firstTime) {
-								firstTime = false;
-								initialStation = station1;
+				for (auto station1 : workstations) {
+					if (station1->getItemName() == current) {
+						for (auto station2 : workstations) {
+							if (station2->getItemName() == next) {
+								station1->setNextStation(*station2);
+								if (firstTime) {
+									firstTime = false;
+									initialStation = station1;
+								}
+								break; //break the inner for loop
 							}
 						}
 					}
 				}
 			}
-			}
-			//std::for_each(workstations.begin(), workstations.end(),
-			//	[&](Workstation* ws1) {
-			//		if (ws1->getItemName() == current) { //find the station with the first item
-			//			auto ptr = find(
-			//				workstations.begin(),
-			//				workstations.end(),
-			//				[&](Workstation* ws) {
-			//					return ws->getItemName() == next; //find the station with the second item
-			//				}
-			//			);
-			//			ws1->setNextStation(**ptr);
-			//			if (firstTime) {
-			//				firstTime = false;
-			//				initialStation = ws1;
-			//			}
-			//		}
-			//	});
 		}
 		catch (...) {
 			throw "Error reading stations order.";
 		}
 	}
+	file.close();
 
 	//Copy all the Workstation objects into the AssemblyLine container
-	//copy(workstations.begin(), workstations.end(), AssemblyLine.begin());
 	AssemblyLine = workstations;
 
 	//Move all the CustomerOrder objects onto the back of the ToBeFilled queue
@@ -82,7 +64,6 @@ LineManager::LineManager(const string& filename, vector<Workstation*>& workstati
 			m_cntCustomerOrder++;
 		}
 	);
-
 }
 
 bool LineManager::run(std::ostream& os) {
@@ -122,7 +103,7 @@ void LineManager::displayStations() const {
 
 void LineManager::displayStationsSorted() const {
 	const Workstation* workStationPointer = initialStation;
-	while (workStationPointer) {
+	while (workStationPointer) { //the last station in the line has a nullptr
 		workStationPointer->display(cout);
 		workStationPointer = workStationPointer->getNextStation();
 	}
